@@ -1,61 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>エフェクト効果：テキスト検索＆コピー</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
   <h1>エフェクト効果：テキスト検索＆コピー</h1>
-  <p>参照範囲：エフェクトアーカイブ</p>
+  <p>参照範囲：エフェクトアーカイブ<br>
+     ブックマークレートと合わせて使ってね</p>
   
-  <input type="text" id="searchBox" placeholder="検索ワードを入力">
+  <input type="text" id="searchBox" placeholder="🔎エフェクト名を入力"><br>
+
+  <select id="typeFilter1"></select>
+  <select id="typeFilter2"></select>
+  <select id="typeFilter3"></select>
+
   <div id="list"></div>
 
-  <script>
-    // 登録データ（例: name=表示だけ, text=コピー対象）
-    const texts = [
-      { name: "<b>イルミネイト</b> 技能:RC 難易度:自動成功 対象：― 射程：視界 侵蝕値:2 制限：―", type: "エンジェルハイロゥ", text: " 周囲の照明などを操って光度を調節し、対象の行動を的確に導くエフェクト。対象が次に行なうメジャーアクションのダイスを+LV個する。" },
-      { name: "アクション: マイナーアクション", type: "バロール", text: "マイナーアクション: 移動などを行う" },
-      { name: "リザレクト", type: "エフェクト", text: "一般: HPを回復して復活する" }
-    ];
-
-    const list = document.getElementById("list");
-    const searchBox = document.getElementById("searchBox");
-
-    function renderList(filter = "") {
-      list.innerHTML = "";
-      texts
-        .filter(t => t.name.includes(filter) || t.text.includes(filter))
-        .forEach(t => {
-          const div = document.createElement("div");
-          div.className = "item";
-
-          // コピー不可の情報部分
-          const info = document.createElement("div");
-          info.textContent = `[${t.type}] ${t.name}`;
-          info.className = "info";
-          div.appendChild(info);
-
-          // コピー可能部分
-          const copy = document.createElement("div");
-          copy.textContent = t.text;
-          copy.className = "copyable";
-          copy.onclick = () => {
-            navigator.clipboard.writeText(t.text);
-            alert("コピーしました: " + t.text);
-          };
-          div.appendChild(copy);
-
-          list.appendChild(div);
-        });
-    }
-
-    searchBox.addEventListener("input", () => {
-      renderList(searchBox.value);
-    });
-
-    renderList();
-  </script>
+ <script src="script.js"></script>
 </body>
 </html>
