@@ -2,26 +2,27 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>エフェクト効果・テキスト検索＆コピー</title>
+  <title>エフェクト効果：テキスト検索＆コピー（区分あり）</title>
   <style>
     body { font-family: sans-serif; margin: 20px; }
-    .item { padding: 6px; border-bottom: 1px solid #ccc; cursor: pointer; }
-    .item:hover { background: #f0f0f0; }
+    .item { padding: 8px; border-bottom: 1px solid #ccc; }
+    .copyable { cursor: pointer; color: blue; }
+    .copyable:hover { text-decoration: underline; }
+    .info { color: #666; font-size: 0.9em; }
   </style>
 </head>
 <body>
-  <h1>テキスト検索＆コピー</h1>
+  <h1>テキスト検索＆コピー（区分あり）</h1>
   
   <input type="text" id="searchBox" placeholder="検索ワードを入力">
   <div id="list"></div>
 
   <script>
-    // ★ ここに登録したいテキストを入れる（例：エフェクト名とか説明）
+    // 登録データ（例: name=表示だけ, text=コピー対象）
     const texts = [
-      "コンセントレイト: 判定の達成値を上げるエフェクト",
-      "マイナーアクション: 移動などを行う行動",
-      "リザレクト: HPを回復して復活する",
-      "クリティカル値: ダイス判定で成功するための値"
+      { name: "エフェクト: コンセントレイト", type: "エフェクト", text: "コンセントレイト: 判定の達成値を上げる" },
+      { name: "アクション: マイナーアクション", type: "行動", text: "マイナーアクション: 移動などを行う" },
+      { name: "リザレクト", type: "エフェクト", text: "リザレクト: HPを回復して復活する" }
     ];
 
     const list = document.getElementById("list");
@@ -30,15 +31,27 @@
     function renderList(filter = "") {
       list.innerHTML = "";
       texts
-        .filter(t => t.includes(filter))
+        .filter(t => t.name.includes(filter) || t.text.includes(filter))
         .forEach(t => {
           const div = document.createElement("div");
-          div.textContent = t;
           div.className = "item";
-          div.onclick = () => {
-            navigator.clipboard.writeText(t);
-            alert("コピーしました: " + t);
+
+          // コピー不可の情報部分
+          const info = document.createElement("div");
+          info.textContent = `[${t.type}] ${t.name}`;
+          info.className = "info";
+          div.appendChild(info);
+
+          // コピー可能部分
+          const copy = document.createElement("div");
+          copy.textContent = t.text;
+          copy.className = "copyable";
+          copy.onclick = () => {
+            navigator.clipboard.writeText(t.text);
+            alert("コピーしました: " + t.text);
           };
+          div.appendChild(copy);
+
           list.appendChild(div);
         });
     }
@@ -47,7 +60,6 @@
       renderList(searchBox.value);
     });
 
-    // 初期表示
     renderList();
   </script>
 </body>
