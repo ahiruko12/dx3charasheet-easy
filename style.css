@@ -1,0 +1,133 @@
+body { font-family: sans-serif; margin: 50px; }
+h1 { margin-bottom: 5px; }
+p { margin-bottom: 20px; }
+
+#searchBox, select { margin-bottom: 10px; padding: 4px 6px; font-size: 1em; }
+
+/* 名前部分 */
+.name {
+  display: inline-block;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black;
+  padding-left: 6px;
+  border-left: 4px solid #ccc;
+  margin-bottom: 2px;
+}
+
+/* タグ部分 */
+.types {
+  display: inline-block;
+  font-size: 0.8em;
+  color: #666;
+  margin-left: 6px;
+}
+.typeTag {
+  margin-right: 6px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+}
+
+/* コピー可能部分（効果） */
+.copyable {
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  font-size: 1.0em; /* 追加：文字サイズを大きく */
+}
+.copyable:hover {
+  background-color: #f0f0f0;
+  text-decoration: none;
+}
+
+/* プルダウン部分 */
+.defaultOption { color: #888; }
+select { font-size: 0.9em; padding: 2px 4px; margin-right: 6px; }
+
+/* 詳細フィルタの余白調整 */
+#detailedFilters { margin-top: 5px; }
+.hidden { display: none; }
+
+select option.defaultOption {
+  color: #888; /* 未選択は灰色 */
+}
+select option:not(.defaultOption) {
+  color: black; /* 選択後は黒 */
+}
+
+#toggleFilters {
+  margin-bottom: 10px; /* 下に余白を追加 */
+}
+
+/* プルダウンデザイン */
+.selectbox-3 {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.selectbox-3::after {
+  position: absolute;
+  right: 15px;
+  width: 10px;
+  height: 7px;
+  background-color: #787c85;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  content: '';
+  pointer-events: none;
+}
+
+.selectbox-3 select {
+    appearance: none;
+    min-width: 130px;   /* ← 横幅を狭める */
+    height: 2.0em;      /* ← 高さを低めにする */
+    padding: .3em calc(.6em + 20px) .3em .6em; /* ← 内側の余白を小さめに */
+    border: 1px solid #8e949f;
+    border-radius: 12px; /* ← 丸みを少し抑える */
+    background-color: #fff;
+    color: #585c65;
+    font-size: 0.8em;   /* ← 文字サイズを少し小さく */
+    cursor: pointer;
+}
+
+/* 詳細フィルタ */
+.filterButton {
+  font-size: 0.9em;
+  padding: 4px 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-align: left;
+  border-bottom: 2px solid #ccc; /* 下線 */
+  margin-bottom: 5px;
+  position: relative;
+  transition: color 0.2s;
+}
+
+/* 矢印を疑似要素で作成 */
+.filterButton::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.3s ease;
+}
+
+/* 展開時に矢印を90度回転 */
+.filterButton.open::before {
+  transform: rotate(90deg);
+}
+
+
+/* フィルタ選択肢 */
+select { font-size: 0.9em; padding: 2px 4px; margin-right: 6px; }
+.defaultOption { color: #888; }
+select option:not(.defaultOption) { color: black; }
+
+/* info は名前とタイプのコンテナ */
+.info { margin-bottom: 5px; padding-top: 2px; padding-bottom: 2px; }
+.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
+
+/* info は名前とタイプのコンテナ */
+.info { margin-bottom: 5px; padding-top: 2px; padding-bottom: 2px; }
+.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
