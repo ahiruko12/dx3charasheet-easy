@@ -488,69 +488,78 @@ const data = [
 {"name":"風の支配者","Lv":"1","シンドローム":"ハヌマーン","タイミング":"メジャー","種別":"イージー","技能":"―","難易度":"自動成功","対象":"範囲（選択）","射程":"視界","侵蝕値":"―","制限":"―","効果1":"BC62","効果2":"空気にうねりを起こし周囲に風を発生させるエフェクト。風の強さはそよ風から強風まで自由に調節できる。また、片手で持てる小物程度なら吹き飛ばすことができる。ただし、この効果でキャラクターやキャラクターが所持するアイテムを動かすことはできない。"}
 ];
 
-// 詳細フィルタ表示/非表示
-document.getElementById("toggleFilters").onclick = () => {
-  const filters = document.getElementById("detailedFilters");
-  filters.classList.toggle("hidden");
-};
-
-// 詳細フィルタデザイン
-const toggleBtn = document.getElementById("toggleFilters");
-const detailedFilters = document.getElementById("detailedFilters");
-
-toggleBtn.onclick = () => {
-  const isHidden = detailedFilters.classList.toggle("hidden");
-  toggleBtn.classList.toggle("open", !isHidden); // 展開時に open クラスを付与
-};
-
-const list = document.getElementById("list");
+// ---------------------------
+// フィルタ設定
+// ---------------------------
 const filterIds = ["filter1","filter2","filter3","filter4","filter5","filter6","filter7"];
 const filterKeys = ["種別","シンドローム","タイミング","技能","対象","射程","制限"];
 
-// フィルタ―選択肢を作成
+// selectの文字色管理関数
+function updateSelectColor(select) {
+  if (!select.value) {
+    select.classList.add("defaultOption");
+    select.style.color = "";
+  } else {
+    select.classList.remove("defaultOption");
+    select.style.color = document.body.classList.contains("dark-mode") ? "#eee" : "#000";
+  }
+}
+
+// selectの初期化とchangeイベントをまとめて設定
 filterIds.forEach((id, i) => {
   const select = document.getElementById(id);
   const key = filterKeys[i];
-
   const uniqueValues = [...new Set(data.map(d => d[key]).filter(v => v && v !== "―"))];
-  select.innerHTML = `<option class="defaultOption" value="">${key}</option>` + uniqueValues.map(v => `<option value="${v}">${v}</option>`).join('');
-  
-  // ここに文字色変更の処理を追加
-  select.onchange = () => {
-    if (select.value === "") {
-      select.classList.add("defaultOption"); // 未選択は灰色
-    } else {
-      select.classList.remove("defaultOption"); // 選択時は黒
-    }
+
+  select.innerHTML = `<option class="defaultOption" value="">${key}</option>` +
+                     uniqueValues.map(v => `<option value="${v}">${v}</option>`).join('');
+
+  select.addEventListener("change", () => {
+    updateSelectColor(select);
     renderList();
-  };
+  });
+
+  updateSelectColor(select);
 });
 
-// 検索窓
-document.getElementById("searchBox").oninput = renderList;
+// ---------------------------
+// 詳細フィルタ表示/非表示
+// ---------------------------
+const toggleBtn = document.getElementById("toggleFilters");
+const detailedFilters = document.getElementById("detailedFilters");
+toggleBtn.addEventListener("click", () => {
+  const isHidden = detailedFilters.classList.toggle("hidden");
+  toggleBtn.classList.toggle("open", !isHidden);
+});
 
-renderList();
+// ---------------------------
+// 検索窓
+// ---------------------------
+document.getElementById("searchBox").addEventListener("input", renderList);
+
+// ---------------------------
+// リスト表示
+// ---------------------------
+const list = document.getElementById("list");
 
 function renderList() {
   list.innerHTML = "";
-  const searchInput = document.getElementById("searchBox").value.toLowerCase();
+  const searchWords = document.getElementById("searchBox").value
+                        .toLowerCase()
+                        .split(/\s+/)
+                        .filter(Boolean);
   const filters = filterIds.map(id => document.getElementById(id).value);
 
-  // 検索ワードを空白で分割（複数ワード対応）
-  const searchWords = searchInput.split(/\s+/).filter(Boolean);
-
   data.forEach(d => {
-    // フィルター判定 + 検索判定
-    const pass = filters.every((val, i) => {
-      return !val || (d[filterKeys[i]] === val);
-    }) && searchWords.every(word =>
-      (d.name && d.name.toLowerCase().includes(word)) ||
-      (d.効果2 && d.効果2.toLowerCase().includes(word))
-    );
+    // フィルタ判定
+    if (!filters.every((val, i) => !val || d[filterKeys[i]] === val)) return;
 
-    if (!pass) return;
+    // 検索判定
+    if (!searchWords.every(word => 
+        (d.name && d.name.toLowerCase().includes(word)) || 
+        (d.効果2 && d.効果2.toLowerCase().includes(word))
+    )) return;
 
-    // --- 以下は表示部分（変更なし） ---
     const div = document.createElement("div");
     div.className = "item";
 
@@ -567,8 +576,15 @@ function renderList() {
     const typesContainer = document.createElement("span");
     typesContainer.className = "types";
 
+    // 表示順にデータを取得
     const tags = [
-      d.種別, d.シンドローム, "Lv" + d.Lv, d.タイミング, d.技能, d.難易度, d.対象, d.射程, d.制限
+      d.シンドローム,
+      "Lv" + d.Lv,
+      d.タイミング,
+      d.技能,
+      d.難易度,
+      d.対象,
+      d.射程
     ];
 
     tags.forEach(t => {
@@ -583,30 +599,47 @@ function renderList() {
     info.appendChild(typesContainer);
     div.appendChild(info);
 
-    // 効果
+    // コピー部分
     const copy = document.createElement("div");
     copy.className = "copyable";
     copy.textContent = `${d.効果1}｜${d.効果2}`;
-
     copy.onclick = () => {
-      const text = 
-        `名称：${d.name} (${d.Lv}) ` +
-        (d.種別 ? `種別：${d.種別} ` : "") +
-        `タイミング：${d.タイミング || "―"} ` +
-        `技能：${d.技能 || "―"} ` +
-        `難易度：${d.難易度 || "―"} ` +
-        `対象：${d.対象 || "―"} ` +
-        `射程：${d.射程 || "―"} ` +
-        `侵蝕値：${d.侵蝕値 || "―"} ` +
-        `制限：${d.制限 || "―"} ` +
-        `効果：${d.効果1}${d.効果2 ? "｜" + d.効果2 : ""}`;
-
+      const text = `名称：${d.name} (${d.Lv}) ` +
+                   (d.種別 ? `種別：${d.種別} ` : "") +
+                   `タイミング：${d.タイミング || "―"} ` +
+                   `技能：${d.技能 || "―"} ` +
+                   `難易度：${d.難易度 || "―"} ` +
+                   `対象：${d.対象 || "―"} ` +
+                   `射程：${d.射程 || "―"} ` +
+                   `侵蝕値：${d.侵蝕値 || "―"} ` +
+                   `制限：${d.制限 || "―"} ` +
+                   `効果：${d.効果1}${d.効果2 ? "｜" + d.効果2 : ""}`;
       navigator.clipboard.writeText(text);
       alert("コピーしました:\n" + text);
     };
-
     div.appendChild(copy);
+
     list.appendChild(div);
   });
 }
 
+// 初回レンダリング
+renderList();
+
+// ---------------------------
+// ダークモード切替
+// ---------------------------
+const body = document.body;
+const toggle = document.getElementById("darkModeToggle");
+
+// 保存状態を反映
+if (localStorage.getItem("dark-mode") === "enabled") {
+  body.classList.add("dark-mode");
+  toggle.checked = true;
+}
+
+// 切替時に select 文字色も自動更新
+toggle.addEventListener("change", () => {
+  body.classList.toggle("dark-mode", toggle.checked);
+  filterIds.forEach(id => updateSelectColor(document.getElementById(id)));
+});
