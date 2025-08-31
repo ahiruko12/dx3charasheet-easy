@@ -1,10 +1,17 @@
-body { font-family: sans-serif; margin: 50px; }
+/* -------------------- */
+/* 基本スタイル */
+/* -------------------- */
+body {
+  font-family: sans-serif;
+  margin: 50px;
+  color: black;
+  background-color: #fff;
+}
 h1 { margin-bottom: 5px; }
 p { margin-bottom: 20px; }
 
-#searchBox, select { margin-bottom: 10px; padding: 4px 6px; font-size: 1em; }
+#searchBox, select { margin-bottom: 10px; padding: 4px 6px; font-size: 1em; border-radius: 6px;  border: 1px solid #818181;  color: #000;}
 
-/* 名前部分 */
 .name {
   display: inline-block;
   font-size: 1.2em;
@@ -15,58 +22,48 @@ p { margin-bottom: 20px; }
   margin-bottom: 2px;
 }
 
-/* タグ部分 */
 .types {
   display: inline-block;
+  margin: 5px;
   font-size: 0.8em;
   color: #666;
-  margin-left: 6px;
 }
+
 .typeTag {
-  margin-right: 6px;
+  display: inline-block;
+  margin-right: 6px;        /* タグ同士の間隔を6pxに */
   padding: 2px 4px;
   border-radius: 4px;
   background-color: #f2f2f2;
+  line-height: 1.2em;   /* 高さを固定 */
 }
 
-/* コピー可能部分（効果） */
 .copyable {
   cursor: pointer;
   font-weight: bold;
+  font-size: 1em;
   color: black;
-  font-size: 1.0em; /* 追加：文字サイズを大きく */
 }
-.copyable:hover {
-  background-color: #f0f0f0;
-  text-decoration: none;
+.copyable:hover { background-color: #f0f0f0; text-decoration: none; }
+
+select {
+  font-size: 0.9em;
+  padding: 2px 4px;
+  margin-right: 6px;
 }
 
-/* プルダウン部分 */
 .defaultOption { color: #888; }
-select { font-size: 0.9em; padding: 2px 4px; margin-right: 6px; }
+select option:not(.defaultOption) { color: black; }
 
-/* 詳細フィルタの余白調整 */
 #detailedFilters { margin-top: 5px; }
 .hidden { display: none; }
+#toggleFilters { margin-bottom: 10px; }
 
-select option.defaultOption {
-  color: #888; /* 未選択は灰色 */
-}
-select option:not(.defaultOption) {
-  color: black; /* 選択後は黒 */
-}
-
-#toggleFilters {
-  margin-bottom: 10px; /* 下に余白を追加 */
-}
-
-/* プルダウンデザイン */
 .selectbox-3 {
   display: inline-flex;
   align-items: center;
   position: relative;
 }
-
 .selectbox-3::after {
   position: absolute;
   right: 15px;
@@ -77,21 +74,19 @@ select option:not(.defaultOption) {
   content: '';
   pointer-events: none;
 }
-
 .selectbox-3 select {
-    appearance: none;
-    min-width: 130px;   /* ← 横幅を狭める */
-    height: 2.0em;      /* ← 高さを低めにする */
-    padding: .3em calc(.6em + 20px) .3em .6em; /* ← 内側の余白を小さめに */
-    border: 1px solid #8e949f;
-    border-radius: 12px; /* ← 丸みを少し抑える */
-    background-color: #fff;
-    color: #585c65;
-    font-size: 0.8em;   /* ← 文字サイズを少し小さく */
-    cursor: pointer;
+  appearance: none;
+  min-width: 130px;
+  height: 2em;
+  padding: .3em calc(.6em + 20px) .3em .6em;
+  border: 1px solid #8e949f;
+  border-radius: 12px;
+  background-color: #fff;
+  color: #585c65;
+  font-size: 0.8em;
+  cursor: pointer;
 }
 
-/* 詳細フィルタ */
 .filterButton {
   font-size: 0.9em;
   padding: 4px 10px;
@@ -99,35 +94,95 @@ select option:not(.defaultOption) {
   border: none;
   background: none;
   text-align: left;
-  border-bottom: 2px solid #ccc; /* 下線 */
+  border-bottom: 2px solid #ccc;
   margin-bottom: 5px;
   position: relative;
   transition: color 0.2s;
 }
-
-/* 矢印を疑似要素で作成 */
 .filterButton::before {
   content: "▶";
   display: inline-block;
   margin-right: 6px;
   transition: transform 0.3s ease;
 }
+.filterButton.open::before { transform: rotate(90deg); }
 
-/* 展開時に矢印を90度回転 */
-.filterButton.open::before {
-  transform: rotate(90deg);
+.info { margin-bottom: 5px; padding: 2px 2px; }
+.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
+
+.toggle-button-1 {
+  position: fixed;      /* ページ全体に対して固定 */
+  top: 20px;            /* 上からの位置 */
+  right: 20px;          /* 右からの位置 */
+  width: 60px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1000;        /* 他の要素の上に表示 */
 }
 
 
-/* フィルタ選択肢 */
-select { font-size: 0.9em; padding: 2px 4px; margin-right: 6px; }
-.defaultOption { color: #888; }
-select option:not(.defaultOption) { color: black; }
+.toggle-button-1:has(:checked) {  background-color: #444;}
 
-/* info は名前とタイプのコンテナ */
-.info { margin-bottom: 5px; padding-top: 2px; padding-bottom: 2px; }
-.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
+.toggle-button-1 .icon {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: left 0.3s;
+}
 
-/* info は名前とタイプのコンテナ */
-.info { margin-bottom: 5px; padding-top: 2px; padding-bottom: 2px; }
-.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
+.toggle-button-1 .icon::before {  content: "☀️";}
+.toggle-button-1:has(:checked) .icon {  left: 32px;}
+.toggle-button-1:has(:checked) .icon::before {  content: "🌙";}
+
+.toggle-button-1 input {  display: none;}
+
+@media screen and (max-width: 600px) {
+  .toggle-button-1 {
+    top: 10px;
+    right: 10px;
+  }
+
+  .toggle-button-1 .icon {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+  }
+}
+
+/* -------------------- */
+/* ダークモード一括管理 */
+/* -------------------- */
+body.dark-mode {
+  background-color: #222;
+  color: #eee;
+}
+
+body.dark-mode #searchBox {background-color: #333;color: #eee;border: 1px solid #555;}
+body.dark-mode .name { color: #eee; border-left-color: #555; }
+body.dark-mode .types{background-color: transparent;color: #ddd;}
+body.dark-mode .typeTag { background-color: #444;  color: #ddd;  }
+body.dark-mode .copyable { color: #eee; }
+body.dark-mode .copyable:hover { background-color: rgba(255,255,255,0.1); }
+
+body.dark-mode select {
+  background-color: #333;
+  border-color: #555;
+  color: #eee;
+}
+body.dark-mode select option.defaultOption { color: #aaa; }
+body.dark-mode select option:not(.defaultOption) { color: #eee; }
+body.dark-mode .selectbox-3::after { background-color: #aaa; }
+
+body.dark-mode .filterButton { color: #eee; border-bottom-color: #555;}
+body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s ease; }
