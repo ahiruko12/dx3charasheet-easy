@@ -190,12 +190,12 @@ body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s e
   }
 
   #searchBox {
-    font-size: 1.2em;
+    font-size: 1.8em;
     padding: 8px 10px;
   }
 
   #toggleFilters {
-    font-size: 1.1em;
+    font-size: 1.6em;
     padding: 8px 12px;
   }
 
@@ -205,8 +205,9 @@ body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s e
   }
 
   .copyable {
-    font-size: 1.0em; /* 名称と同じサイズ */
+    font-size: 0.9em; /* 名称と同じサイズ */
   }
 }
+
 
 
