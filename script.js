@@ -533,20 +533,24 @@ renderList();
 
 function renderList() {
   list.innerHTML = "";
-  const search = document.getElementById("searchBox").value.toLowerCase();
+  const searchInput = document.getElementById("searchBox").value.toLowerCase();
   const filters = filterIds.map(id => document.getElementById(id).value);
 
+  // 検索ワードを空白で分割（複数ワード対応）
+  const searchWords = searchInput.split(/\s+/).filter(Boolean);
+
   data.forEach(d => {
-    // フィルター判定
+    // フィルター判定 + 検索判定
     const pass = filters.every((val, i) => {
       return !val || (d[filterKeys[i]] === val);
-    }) && (
-      (d.name && d.name.toLowerCase().includes(search)) ||
-      (d.効果2 && d.効果2.toLowerCase().includes(search))
+    }) && searchWords.every(word =>
+      (d.name && d.name.toLowerCase().includes(word)) ||
+      (d.効果2 && d.効果2.toLowerCase().includes(word))
     );
 
     if (!pass) return;
 
+    // --- 以下は表示部分（変更なし） ---
     const div = document.createElement("div");
     div.className = "item";
 
@@ -584,28 +588,25 @@ function renderList() {
     copy.className = "copyable";
     copy.textContent = `${d.効果1}｜${d.効果2}`;
 
-copy.onclick = () => {
-  const text = 
-    `名称：${d.name} (${d.Lv}) ` +
-    (d.種別 ? `種別：${d.種別} ` : "") +
-    `タイミング：${d.タイミング || "―"} ` +
-    `技能：${d.技能 || "―"} ` +
-    `難易度：${d.難易度 || "―"} ` +
-    `対象：${d.対象 || "―"} ` +
-    `射程：${d.射程 || "―"} ` +
-    `侵蝕値：${d.侵蝕値 || "―"} ` +
-    `制限：${d.制限 || "―"} ` +
-    `効果：${d.効果1}${d.効果2 ? "｜" + d.効果2 : ""}`;
+    copy.onclick = () => {
+      const text = 
+        `名称：${d.name} (${d.Lv}) ` +
+        (d.種別 ? `種別：${d.種別} ` : "") +
+        `タイミング：${d.タイミング || "―"} ` +
+        `技能：${d.技能 || "―"} ` +
+        `難易度：${d.難易度 || "―"} ` +
+        `対象：${d.対象 || "―"} ` +
+        `射程：${d.射程 || "―"} ` +
+        `侵蝕値：${d.侵蝕値 || "―"} ` +
+        `制限：${d.制限 || "―"} ` +
+        `効果：${d.効果1}${d.効果2 ? "｜" + d.効果2 : ""}`;
 
-  navigator.clipboard.writeText(text);
-  alert("コピーしました:\n" + text);
-};
+      navigator.clipboard.writeText(text);
+      alert("コピーしました:\n" + text);
+    };
 
     div.appendChild(copy);
-
     list.appendChild(div);
   });
 }
-
-
 
