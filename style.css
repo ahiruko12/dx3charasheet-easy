@@ -76,7 +76,7 @@ select option:not(.defaultOption) { color: black; }
 }
 .selectbox-3 select {
   appearance: none;
-  min-width: 130px;
+  min-width: 80px;
   height: 2em;
   padding: .3em calc(.6em + 20px) .3em .6em;
   border: 1px solid #8e949f;
@@ -147,19 +147,6 @@ select option:not(.defaultOption) { color: black; }
 
 .toggle-button-1 input {  display: none;}
 
-@media screen and (max-width: 600px) {
-  .toggle-button-1 {
-    top: 10px;
-    right: 10px;
-  }
-
-  .toggle-button-1 .icon {
-    width: 22px;
-    height: 22px;
-    font-size: 14px;
-  }
-}
-
 /* -------------------- */
 /* ダークモード一括管理 */
 /* -------------------- */
@@ -186,3 +173,38 @@ body.dark-mode .selectbox-3::after { background-color: #aaa; }
 
 body.dark-mode .filterButton { color: #eee; border-bottom-color: #555;}
 body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s ease; }
+
+/* -------------------- */
+/* スマホ対応 */
+@media screen and (max-width: 600px) {
+  .toggle-button-1 {
+    width: 80px;
+    height: 40px;
+    top: 10px;
+    right: 10px;
+  }
+  .toggle-button-1 .icon {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+
+  #searchBox {
+    font-size: 1.2em;
+    padding: 8px 10px;
+  }
+
+  #toggleFilters {
+    font-size: 1.1em;
+    padding: 8px 12px;
+  }
+
+  select {
+    font-size: 1em;
+    padding: 6px 8px;
+  }
+
+  .copyable {
+    font-size: 1.2em; /* 名称と同じサイズ */
+  }
+}
