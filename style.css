@@ -176,7 +176,7 @@ body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s e
 
 /* -------------------- */
 /* スマホ対応 */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
   .toggle-button-1 {
     width: 80px;
     height: 40px;
@@ -208,3 +208,4 @@ body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s e
     font-size: 1.2em; /* 名称と同じサイズ */
   }
 }
+
