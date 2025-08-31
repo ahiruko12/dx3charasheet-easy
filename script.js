@@ -642,4 +642,13 @@ if (localStorage.getItem("dark-mode") === "enabled") {
 toggle.addEventListener("change", () => {
   body.classList.toggle("dark-mode", toggle.checked);
   filterIds.forEach(id => updateSelectColor(document.getElementById(id)));
+
+  // 状態を保存
+  if (toggle.checked) {
+    localStorage.setItem("dark-mode", "enabled");
+  } else {
+    localStorage.setItem("dark-mode", "disabled");
+  }
 });
+
+
