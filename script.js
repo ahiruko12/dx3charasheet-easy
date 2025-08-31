@@ -540,7 +540,10 @@ function renderList() {
     // フィルター判定
     const pass = filters.every((val, i) => {
       return !val || (d[filterKeys[i]] === val);
-    }) && d.name.toLowerCase().includes(search);
+    }) && (
+      (d.name && d.name.toLowerCase().includes(search)) ||
+      (d.効果2 && d.効果2.toLowerCase().includes(search))
+    );
 
     if (!pass) return;
 
@@ -603,5 +606,6 @@ copy.onclick = () => {
     list.appendChild(div);
   });
 }
+
 
 
