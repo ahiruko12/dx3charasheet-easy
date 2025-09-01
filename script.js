@@ -723,7 +723,8 @@ function renderList() {
       d.技能,
       d.難易度,
       d.対象,
-      d.射程
+      d.射程,
+      d.制限
     ];
 
     tags.forEach(t => {
@@ -789,6 +790,7 @@ toggle.addEventListener("change", () => {
     localStorage.setItem("dark-mode", "disabled");
   }
 });
+
 
 
 
