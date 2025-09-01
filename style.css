@@ -10,7 +10,7 @@ body {
 h1 { margin-bottom: 5px; }
 p { margin-bottom: 20px; }
 
-#searchBox, select { margin-bottom: 10px; padding: 4px 6px; font-size: 1em; border-radius: 6px;  border: 1px solid #818181;  color: #000;}
+#searchBox, select { margin-bottom: 10px; padding: 4px 6px; font-size: 1.2em; border-radius: 6px;  border: 1px solid #818181;  color: #000;}
 
 .name {
   display: inline-block;
@@ -88,7 +88,7 @@ select option:not(.defaultOption) { color: black; }
 }
 
 .filterButton {
-  font-size: 0.9em;
+  font-size: 1em;
   padding: 4px 10px;
   cursor: pointer;
   border: none;
@@ -111,41 +111,53 @@ select option:not(.defaultOption) { color: black; }
 .item { padding: 6px 0; border-bottom: 1px solid #ccc; }
 
 .toggle-button-1 {
-  position: fixed;      /* ページ全体に対して固定 */
-  top: 20px;            /* 上からの位置 */
-  right: 20px;          /* 右からの位置 */
-  width: 60px;
-  height: 30px;
-  border-radius: 30px;
+  position: fixed;
+  top: 1.2em;              /* em で相対指定 */
+  right: 1.2em;
+  width: 4em;              /* ← 全体の幅 */
+  height: 2em;             /* ← 全体の高さ */
+  border-radius: 2em;      /* ← 高さに合わせて丸く */
   background-color: #ddd;
   cursor: pointer;
   transition: background-color 0.3s;
-  z-index: 1000;        /* 他の要素の上に表示 */
+  z-index: 1000;
+  font-size: 16px;         /* 基準の文字サイズ */
 }
 
-
-.toggle-button-1:has(:checked) {  background-color: #444;}
+.toggle-button-1:has(:checked) {
+  background-color: #444;
+}
 
 .toggle-button-1 .icon {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 26px;
-  height: 26px;
+  top: 0.15em;             /* 上の余白 */
+  left: 0.15em;            /* 左の余白 */
+  width: 1.7em;            /* 親の font-size に比例 */
+  height: 1.7em;
   border-radius: 50%;
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 1em;          /* アイコンサイズは親基準 */
   transition: left 0.3s;
 }
 
-.toggle-button-1 .icon::before {  content: "☀️";}
-.toggle-button-1:has(:checked) .icon {  left: 32px;}
-.toggle-button-1:has(:checked) .icon::before {  content: "🌙";}
+.toggle-button-1 .icon::before {
+  content: "☀️";
+}
 
-.toggle-button-1 input {  display: none;}
+.toggle-button-1:has(:checked) .icon {
+  left: 2.1em;             /* 幅の半分くらいにスライド */
+}
+
+.toggle-button-1:has(:checked) .icon::before {
+  content: "🌙";
+}
+
+.toggle-button-1 input {
+  display: none;
+}
 
 /* -------------------- */
 /* ダークモード一括管理 */
@@ -173,6 +185,7 @@ body.dark-mode .selectbox-3::after { background-color: #aaa; }
 
 body.dark-mode .filterButton { color: #eee; border-bottom-color: #555;}
 body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s ease; }
+
 
 
 
