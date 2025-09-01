@@ -13,8 +13,8 @@ p { margin-bottom: 20px; }
 #searchBox, select { margin:10px 0; padding: 4px 6px; font-size: 1.2em; border-radius: 6px;  border: 1px solid #818181;  color: #000;}
 
 .name {
-  display: inline-block;
-  font-size: 1.2em;
+  display: inline;
+  font-size: 20px;
   font-weight: bold;
   color: black;
   padding-left: 6px;
@@ -41,7 +41,7 @@ p { margin-bottom: 20px; }
 .copyable {
   cursor: pointer;
   font-weight: bold;
-  font-size: 1em;
+  font-size:16px;
   color: black;
 }
 .copyable:hover { background-color: #f0f0f0; text-decoration: none; }
@@ -121,7 +121,7 @@ select option:not(.defaultOption) { color: black; }
   cursor: pointer;
   transition: background-color 0.3s;
   z-index: 1000;
-  font-size: 16px;         /* 基準の文字サイズ */
+  font-size: 30px;         /* 基準の文字サイズ */
 }
 
 .toggle-button-1:has(:checked) {
