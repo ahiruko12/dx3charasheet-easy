@@ -108,7 +108,7 @@ select option:not(.defaultOption) { color: black; }
 .filterButton.open::before { transform: rotate(90deg); }
 
 .info { margin-bottom: 5px; padding: 2px 2px; }
-.item { padding: 6px 0; border-bottom: 1px solid #ccc; }
+.item { padding: 10px 0; border-bottom: 1px solid #ccc; }
 
 .toggle-button-1 {
   position: fixed;
@@ -185,7 +185,6 @@ body.dark-mode .selectbox-3::after { background-color: #aaa; }
 
 body.dark-mode .filterButton { color: #eee; border-bottom-color: #555;}
 body.dark-mode .filterButton::before { color: #eee; transition: transform 0.3s ease; }
-
 
 
 
