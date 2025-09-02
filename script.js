@@ -1010,6 +1010,7 @@ function renderList() {
 
     // 表示順にデータを取得
     const tags = [
+      d.種別,
       d.シンドローム,
       "Lv" + d.Lv,
       d.タイミング,
@@ -1083,6 +1084,7 @@ toggle.addEventListener("change", () => {
     localStorage.setItem("dark-mode", "disabled");
   }
 });
+
 
 
 
